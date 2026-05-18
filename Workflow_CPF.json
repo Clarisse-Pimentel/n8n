@@ -1,0 +1,184 @@
+{
+  "name": "Workflow_CPF",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        0
+      ],
+      "id": "39f1372e-82cc-44ac-b36d-751f2a88fd88",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bbf85187-4036-491c-ac57-8f4a1615b4d0",
+              "name": "erro",
+              "value": "CPF inválido",
+              "type": "string"
+            },
+            {
+              "id": "c3e32593-351a-480a-a43e-8435a926b1de",
+              "name": "status",
+              "value": "falha",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        80
+      ],
+      "id": "1ceae0f4-8709-4e7e-ab0f-ed98c6dee518",
+      "name": "Tratar-Erro"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "0RdSaYwwStID5FgW",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/0RdSaYwwStID5FgW",
+          "cachedResultName": "Subworkflow_CPF"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        112,
+        -112
+      ],
+      "id": "dc777871-720e-4601-bea8-31e951a48e12",
+      "name": "Executar-Subworkflow"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "af69a25d-6a6b-4c66-b2db-d743b48eceff",
+              "name": "cpf",
+              "value": "12345678900",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        0
+      ],
+      "id": "21b75031-b797-4d80-8bee-d2d1299a8f50",
+      "name": "Set"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "955a8698-a1f4-4c03-b28b-fe6574fb66a8",
+              "leftValue": "{{ $json.cpf.length.toString() }}",
+              "rightValue": "\"\"",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -112,
+        0
+      ],
+      "id": "7409b766-b775-46f4-8adc-a57ccb1fc334",
+      "name": "If"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Set",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Executar-Subworkflow",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tratar-Erro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "fb5c6eac-b043-4e3c-b33b-a11952923d2f",
+  "meta": {
+    "instanceId": "0462d52501ea68c7be5ff4d4c6bc0f4820b0a630ff1f09d34536b4468047a70f"
+  },
+  "id": "2BM5leSacI9UGEnF",
+  "tags": []
+}
